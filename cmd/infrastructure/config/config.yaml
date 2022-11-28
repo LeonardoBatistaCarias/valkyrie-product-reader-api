@@ -1,0 +1,27 @@
+serviceName: reader_service
+grpc:
+  port: :5003
+  development: true
+postgres:
+  host: localhost
+  port: 5432
+  user: postgres
+  password: postgres
+  dbName: products
+  sslMode: false
+kafka:
+  brokers: [ "localhost:9092" ]
+  groupID: writer_microservice_consumer
+  initTopics: true
+kafkaTopics:
+  productCreate:
+    topicName: product_create
+    partitions: 10
+    replicationFactor: 1
+mongo:
+  uri: "mongodb://localhost:27017"
+  user: admin
+  password: admin
+  db: products
+mongoCollections:
+  products: products
