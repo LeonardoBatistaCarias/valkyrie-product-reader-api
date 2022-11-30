@@ -2,7 +2,7 @@ package server
 
 import (
 	grpcService "github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/product/service"
-	productReader "github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/proto/product_reader"
+	protoProduct "github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/proto/product"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/utils/constants"
 
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
@@ -18,13 +18,31 @@ import (
 	"time"
 )
 
-func (s *server) newReaderGrpcServer() (func() error, *grpc.Server, error) {
+func (s *server) NewGrpcServer() (func() error, *grpc.Server, error) {
 	l, err := net.Listen("tcp", s.cfg.GRPC.Port)
 	if err != nil {
 		return nil, nil, errors.Wrap(err, "net.Listen")
 	}
 
-	grpcServer := grpc.NewServer(
+	grpcServer := newGrpcServer()
+
+	grpcService := grpcService.NewReaderGrpcService(s.cfg, s.ps)
+	protoProduct.RegisterProductServiceServer(grpcServer, grpcService)
+
+	if s.cfg.GRPC.Development {
+		reflection.Register(grpcServer)
+	}
+
+	go func() {
+		log.Printf("Reader gRPC server is listening on port: %s", s.cfg.GRPC.Port)
+		log.Fatal(grpcServer.Serve(l))
+	}()
+
+	return l.Close, grpcServer, nil
+}
+
+func newGrpcServer() *grpc.Server {
+	return grpc.NewServer(
 		grpc.KeepaliveParams(keepalive.ServerParameters{
 			MaxConnectionIdle: constants.MAX_CONNECTION_IDLE * time.Minute,
 			Timeout:           constants.GRPC_TIMEOUT * time.Second,
@@ -39,18 +57,8 @@ func (s *server) newReaderGrpcServer() (func() error, *grpc.Server, error) {
 			),
 		),
 	)
-
-	grpcService := grpcService.NewReaderGrpcService(s.cfg, s.ps)
-	productReader.RegisterReaderServiceServer(grpcServer, grpcService)
-
-	if s.cfg.GRPC.Development {
-		reflection.Register(grpcServer)
-	}
-
-	go func() {
-		log.Printf("Reader gRPC server is listening on port: %s", s.cfg.GRPC.Port)
-		log.Fatal(grpcServer.Serve(l))
-	}()
-
-	return l.Close, grpcServer, nil
 }
+
+//func (s *server) CreateProduct(ctx context.Context, product *protoProduct.Product) (*protoProduct.Product, error) {
+//
+//}

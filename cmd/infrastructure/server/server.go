@@ -40,7 +40,7 @@ func (s *server) Run() error {
 
 	s.ps = service.NewProductService(mongoRepo)
 
-	closeGrpcServer, grpcServer, err := s.newReaderGrpcServer()
+	closeGrpcServer, grpcServer, err := s.NewGrpcServer()
 	if err != nil {
 		return errors.Wrap(err, "NewScmGrpcServer")
 	}
