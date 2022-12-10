@@ -2,7 +2,7 @@ package server
 
 import (
 	grpcService "github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/product/service"
-	protoProduct "github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/proto/product"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/proto/pb"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/utils/constants"
 
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
@@ -27,7 +27,7 @@ func (s *server) NewGrpcServer() (func() error, *grpc.Server, error) {
 	grpcServer := newGrpcServer()
 
 	grpcService := grpcService.NewReaderGrpcService(s.cfg, s.ps)
-	protoProduct.RegisterProductServiceServer(grpcServer, grpcService)
+	pb.RegisterProductReaderServiceServer(grpcServer, grpcService)
 
 	if s.cfg.GRPC.Development {
 		reflection.Register(grpcServer)

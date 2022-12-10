@@ -1,11 +1,9 @@
 package get_by
 
-import uuid "github.com/satori/go.uuid"
-
 type GetProductByIdQuery struct {
-	ProductID uuid.UUID
+	ProductID string
 }
 
-func NewGetProductByIdQuery(productID uuid.UUID) *GetProductByIdQuery {
+func NewGetProductByIdQuery(productID string) *GetProductByIdQuery {
 	return &GetProductByIdQuery{ProductID: productID}
 }

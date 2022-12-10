@@ -6,7 +6,7 @@ import (
 )
 
 type Product struct {
-	ProductID     uuid.UUID
+	ProductID     string
 	Name          string
 	Description   string
 	Brand         Brand
@@ -21,7 +21,7 @@ type Product struct {
 }
 
 func NewProduct(
-	productID uuid.UUID,
+	productID string,
 	name string,
 	description string,
 	brand Brand,

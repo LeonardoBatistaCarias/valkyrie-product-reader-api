@@ -6,10 +6,10 @@ import (
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/config"
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
-	uuid "github.com/satori/go.uuid"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"log"
 )
 
 type mongoRepository struct {
@@ -36,15 +36,16 @@ func (p *mongoRepository) CreateProduct(ctx context.Context, product *product.Pr
 	return product, nil
 }
 
-func (p *mongoRepository) GetProductById(ctx context.Context, uuid uuid.UUID) (*product.Product, error) {
+func (p *mongoRepository) GetProductById(ctx context.Context, productID string) (*product.Product, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "mongoRepository.GetProductById")
 	defer span.Finish()
 
 	collection := p.db.Database(p.cfg.Mongo.Db).Collection(p.cfg.MongoCollections.Products)
 
 	var product product.Product
-	if err := collection.FindOne(ctx, bson.M{"_id": uuid.String()}).Decode(&product); err != nil {
+	if err := collection.FindOne(ctx, bson.M{"productid": productID}).Decode(&product); err != nil {
 		p.traceErr(span, err)
+		log.Printf("Product with ID: %s doesn't exist")
 		return nil, errors.Wrap(err, "Decode")
 	}
 

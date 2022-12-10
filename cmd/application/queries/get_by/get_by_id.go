@@ -22,11 +22,10 @@ func (q *getProductByIdHandler) Handle(ctx context.Context, query *GetProductByI
 	span, ctx := opentracing.StartSpanFromContext(ctx, "getProductByIdHandler.Handle")
 	defer span.Finish()
 
-	//product, err := q.gateway.GetProductById(ctx, query.ProductID)
-	//if err != nil {
-	//	return nil, err
-	//}
-	//
-	//return product, nil
-	return nil, nil
+	product, err := q.gateway.GetProductByID(ctx, query.ProductID)
+	if err != nil {
+		return nil, err
+	}
+
+	return product, nil
 }

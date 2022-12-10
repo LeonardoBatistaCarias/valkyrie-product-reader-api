@@ -24,3 +24,12 @@ func (g *ProductMongoDBGateway) Create(ctx context.Context, p product.Product) e
 
 	return nil
 }
+
+func (g *ProductMongoDBGateway) GetProductByID(ctx context.Context, productID string) (*product.Product, error) {
+	p, err := g.mongoRepo.GetProductById(ctx, productID)
+	if err != nil {
+		return nil, err
+	}
+
+	return p, nil
+}

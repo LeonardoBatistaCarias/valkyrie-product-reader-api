@@ -20,7 +20,8 @@ func NewCreateProductHandler(productGateway product.ProductGateway) *createProdu
 }
 
 func (c *createProductHandler) Handle(ctx context.Context, cmd CreateProductCommand) error {
-	product := product.NewProduct(uuid.NewV4(),
+	product := product.NewProduct(
+		cmd.ProductID,
 		cmd.Name,
 		cmd.Description,
 		1,

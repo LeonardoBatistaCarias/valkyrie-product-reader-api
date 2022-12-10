@@ -1,7 +1,10 @@
 package product
 
-import "context"
+import (
+	"context"
+)
 
 type ProductGateway interface {
 	Create(ctx context.Context, product Product) error
+	GetProductByID(ctx context.Context, productID string) (*Product, error)
 }

@@ -3,8 +3,10 @@ package service
 import (
 	"context"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/application/commands/create"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/application/queries/get_by"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/config"
-	protoProduct "github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/proto/product"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/proto/pb"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/proto/pb/model"
 	uuid "github.com/satori/go.uuid"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -20,15 +22,39 @@ func NewReaderGrpcService(cfg *config.Config, ps *ProductService) *grpcService {
 	return &grpcService{cfg: cfg, ps: ps}
 }
 
-func (s *grpcService) CreateProduct(ctx context.Context, req *protoProduct.Product) (*protoProduct.Product, error) {
-	command := create.NewCreateProductCommand(uuid.FromStringOrNil(req.GetProductID()), req.GetName(), req.GetDescription(), 1, float64(req.GetPrice()), 1, uuid.NewV4(), nil, true)
+func (s *grpcService) CreateProduct(ctx context.Context, req *pb.CreateProductReq) (*pb.CreateProductRes, error) {
+	p := req.GetProduct()
+	command := create.NewCreateProductCommand(p.GetProductID(), p.GetName(), p.GetDescription(), p.GetBrand(), float64(p.GetPrice()), p.GetQuantity(), uuid.FromStringOrNil(p.GetCategoryID()), nil, p.GetActive())
 
 	if err := s.ps.Commands.CreateProduct.Handle(ctx, *command); err != nil {
 		log.Printf("CreateProduct.Handle %s", err)
 		return nil, s.errResponse(codes.InvalidArgument, err)
 	}
 
-	return req, nil
+	return &pb.CreateProductRes{Product: p}, nil
+}
+
+func (s *grpcService) GetProductByID(ctx context.Context, req *pb.GetProductByIDReq) (*pb.GetProductByIDRes, error) {
+	query := get_by.NewGetProductByIdQuery(req.ProductID)
+	p, err := s.ps.Queries.GetProductById.Handle(ctx, query)
+	if err != nil {
+		log.Printf("GetProductByID.Handle %s", err)
+		return nil, s.errResponse(codes.InvalidArgument, err)
+	}
+	pp := &model.Product{ProductID: p.ProductID, Name: p.Name,
+		Description:   p.Description,
+		Brand:         int32(p.Brand),
+		Price:         float32(p.Price),
+		Quantity:      p.Quantity,
+		CategoryID:    p.CategoryID.String(),
+		ProductImages: nil,
+		Active:        p.Active,
+		CreatedAt:     p.CreatedAt.String(),
+		UpdatedAt:     p.UpdatedAt.String(),
+		DeletedAt:     p.DeletedAt.String()}
+
+	res := &pb.GetProductByIDRes{Product: pp}
+	return res, nil
 }
 
 func (s *grpcService) errResponse(c codes.Code, err error) error {

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "./;protoProduct";
+option go_package = "/model";
 
 message Product {
   string ProductID = 1;
@@ -20,8 +20,4 @@ message Product {
 message ProductImage {
   string name = 1;
   string productID = 2;
-}
-
-service ProductService {
-  rpc CreateProduct(Product) returns (Product) {};
 }
