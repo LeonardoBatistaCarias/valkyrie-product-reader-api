@@ -9,4 +9,6 @@ import "product_reader_messages.proto";
 service ProductReaderService {
   rpc CreateProduct(CreateProductReq) returns (CreateProductRes) {};
   rpc GetProductByID(GetProductByIDReq) returns (GetProductByIDRes) {};
+  rpc DeleteProductByID(DeleteProductByIDReq) returns (DeleteProductByIDRes) {};
+  rpc UpdateProductByID(UpdateProductByIDReq) returns (UpdateProductByIDRes) {};
 }

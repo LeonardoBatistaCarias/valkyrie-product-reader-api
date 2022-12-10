@@ -21,19 +21,18 @@ func NewMongoRepository(cfg *config.Config, db *mongo.Client) *mongoRepository {
 	return &mongoRepository{cfg: cfg, db: db}
 }
 
-func (p *mongoRepository) CreateProduct(ctx context.Context, product *product.Product) (*product.Product, error) {
+func (p *mongoRepository) CreateProduct(ctx context.Context, product *product.Product) error {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "mongoRepository.CreateProduct")
 	defer span.Finish()
 
 	collection := p.db.Database(p.cfg.Mongo.Db).Collection(p.cfg.MongoCollections.Products)
 
-	_, err := collection.InsertOne(ctx, product, &options.InsertOneOptions{})
-	if err != nil {
+	if _, err := collection.InsertOne(ctx, product, &options.InsertOneOptions{}); err != nil {
 		p.traceErr(span, err)
-		return nil, errors.Wrap(err, "InsertOne")
+		return errors.Wrap(err, "InsertOne")
 	}
 
-	return product, nil
+	return nil
 }
 
 func (p *mongoRepository) GetProductById(ctx context.Context, productID string) (*product.Product, error) {
@@ -50,6 +49,36 @@ func (p *mongoRepository) GetProductById(ctx context.Context, productID string) 
 	}
 
 	return &product, nil
+}
+
+func (p *mongoRepository) DeleteProductByID(ctx context.Context, productID string) error {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "mongoRepository.DeleteProductByID")
+	defer span.Finish()
+
+	collection := p.db.Database(p.cfg.Mongo.Db).Collection(p.cfg.MongoCollections.Products)
+
+	filter := bson.M{"productid": productID}
+	update := bson.D{{"$set", bson.D{{"active", false}}}}
+	if _, err := collection.UpdateOne(ctx, filter, update); err != nil {
+		p.traceErr(span, err)
+		return errors.Wrap(err, "UpdateOne")
+	}
+
+	return nil
+}
+
+func (p *mongoRepository) UpdateProductByID(ctx context.Context, product *product.Product) error {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "mongoRepository.UpdateProductByID")
+	defer span.Finish()
+
+	collection := p.db.Database(p.cfg.Mongo.Db).Collection(p.cfg.MongoCollections.Products)
+
+	if result := collection.FindOneAndUpdate(ctx, bson.M{"productid": product.ProductID}, bson.M{"$set": product}); result.Err() != nil {
+		p.traceErr(span, result.Err())
+		return errors.Wrap(result.Err(), "FindOneAndUpdate")
+	}
+
+	return nil
 }
 
 func (p *mongoRepository) traceErr(span opentracing.Span, err error) {

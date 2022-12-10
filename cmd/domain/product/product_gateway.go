@@ -5,6 +5,8 @@ import (
 )
 
 type ProductGateway interface {
-	Create(ctx context.Context, product Product) error
+	CreateProduct(ctx context.Context, product Product) error
 	GetProductByID(ctx context.Context, productID string) (*Product, error)
+	DeleteProductByID(ctx context.Context, productID string) error
+	UpdateProductByID(ctx context.Context, product Product) error
 }

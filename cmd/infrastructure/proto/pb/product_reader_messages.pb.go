@@ -209,6 +209,176 @@ func (x *GetProductByIDRes) GetProduct() *model.Product {
 	return nil
 }
 
+type DeleteProductByIDReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ProductID string `protobuf:"bytes,1,opt,name=productID,proto3" json:"productID,omitempty"`
+}
+
+func (x *DeleteProductByIDReq) Reset() {
+	*x = DeleteProductByIDReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_product_reader_messages_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteProductByIDReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteProductByIDReq) ProtoMessage() {}
+
+func (x *DeleteProductByIDReq) ProtoReflect() protoreflect.Message {
+	mi := &file_product_reader_messages_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteProductByIDReq.ProtoReflect.Descriptor instead.
+func (*DeleteProductByIDReq) Descriptor() ([]byte, []int) {
+	return file_product_reader_messages_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *DeleteProductByIDReq) GetProductID() string {
+	if x != nil {
+		return x.ProductID
+	}
+	return ""
+}
+
+type DeleteProductByIDRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *DeleteProductByIDRes) Reset() {
+	*x = DeleteProductByIDRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_product_reader_messages_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteProductByIDRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteProductByIDRes) ProtoMessage() {}
+
+func (x *DeleteProductByIDRes) ProtoReflect() protoreflect.Message {
+	mi := &file_product_reader_messages_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteProductByIDRes.ProtoReflect.Descriptor instead.
+func (*DeleteProductByIDRes) Descriptor() ([]byte, []int) {
+	return file_product_reader_messages_proto_rawDescGZIP(), []int{5}
+}
+
+type UpdateProductByIDReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Product *model.Product `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
+}
+
+func (x *UpdateProductByIDReq) Reset() {
+	*x = UpdateProductByIDReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_product_reader_messages_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateProductByIDReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateProductByIDReq) ProtoMessage() {}
+
+func (x *UpdateProductByIDReq) ProtoReflect() protoreflect.Message {
+	mi := &file_product_reader_messages_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateProductByIDReq.ProtoReflect.Descriptor instead.
+func (*UpdateProductByIDReq) Descriptor() ([]byte, []int) {
+	return file_product_reader_messages_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *UpdateProductByIDReq) GetProduct() *model.Product {
+	if x != nil {
+		return x.Product
+	}
+	return nil
+}
+
+type UpdateProductByIDRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *UpdateProductByIDRes) Reset() {
+	*x = UpdateProductByIDRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_product_reader_messages_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateProductByIDRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateProductByIDRes) ProtoMessage() {}
+
+func (x *UpdateProductByIDRes) ProtoReflect() protoreflect.Message {
+	mi := &file_product_reader_messages_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateProductByIDRes.ProtoReflect.Descriptor instead.
+func (*UpdateProductByIDRes) Descriptor() ([]byte, []int) {
+	return file_product_reader_messages_proto_rawDescGZIP(), []int{7}
+}
+
 var File_product_reader_messages_proto protoreflect.FileDescriptor
 
 var file_product_reader_messages_proto_rawDesc = []byte{
@@ -228,8 +398,18 @@ var file_product_reader_messages_proto_rawDesc = []byte{
 	0x44, 0x22, 0x37, 0x0a, 0x11, 0x47, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x42,
 	0x79, 0x49, 0x44, 0x52, 0x65, 0x73, 0x12, 0x22, 0x0a, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63,
 	0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x08, 0x2e, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63,
-	0x74, 0x52, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x42, 0x05, 0x5a, 0x03, 0x2f, 0x70,
-	0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x52, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x22, 0x34, 0x0a, 0x14, 0x44, 0x65,
+	0x6c, 0x65, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x42, 0x79, 0x49, 0x44, 0x52,
+	0x65, 0x71, 0x12, 0x1c, 0x0a, 0x09, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x49, 0x44, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x49, 0x44,
+	0x22, 0x16, 0x0a, 0x14, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63,
+	0x74, 0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x73, 0x22, 0x3a, 0x0a, 0x14, 0x55, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x71,
+	0x12, 0x22, 0x0a, 0x07, 0x70, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x08, 0x2e, 0x50, 0x72, 0x6f, 0x64, 0x75, 0x63, 0x74, 0x52, 0x07, 0x70, 0x72, 0x6f,
+	0x64, 0x75, 0x63, 0x74, 0x22, 0x16, 0x0a, 0x14, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x72,
+	0x6f, 0x64, 0x75, 0x63, 0x74, 0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x73, 0x42, 0x05, 0x5a, 0x03,
+	0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -244,23 +424,28 @@ func file_product_reader_messages_proto_rawDescGZIP() []byte {
 	return file_product_reader_messages_proto_rawDescData
 }
 
-var file_product_reader_messages_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_product_reader_messages_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_product_reader_messages_proto_goTypes = []interface{}{
-	(*CreateProductReq)(nil),  // 0: CreateProductReq
-	(*CreateProductRes)(nil),  // 1: CreateProductRes
-	(*GetProductByIDReq)(nil), // 2: GetProductByIDReq
-	(*GetProductByIDRes)(nil), // 3: GetProductByIDRes
-	(*model.Product)(nil),     // 4: Product
+	(*CreateProductReq)(nil),     // 0: CreateProductReq
+	(*CreateProductRes)(nil),     // 1: CreateProductRes
+	(*GetProductByIDReq)(nil),    // 2: GetProductByIDReq
+	(*GetProductByIDRes)(nil),    // 3: GetProductByIDRes
+	(*DeleteProductByIDReq)(nil), // 4: DeleteProductByIDReq
+	(*DeleteProductByIDRes)(nil), // 5: DeleteProductByIDRes
+	(*UpdateProductByIDReq)(nil), // 6: UpdateProductByIDReq
+	(*UpdateProductByIDRes)(nil), // 7: UpdateProductByIDRes
+	(*model.Product)(nil),        // 8: Product
 }
 var file_product_reader_messages_proto_depIdxs = []int32{
-	4, // 0: CreateProductReq.product:type_name -> Product
-	4, // 1: CreateProductRes.product:type_name -> Product
-	4, // 2: GetProductByIDRes.product:type_name -> Product
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	8, // 0: CreateProductReq.product:type_name -> Product
+	8, // 1: CreateProductRes.product:type_name -> Product
+	8, // 2: GetProductByIDRes.product:type_name -> Product
+	8, // 3: UpdateProductByIDReq.product:type_name -> Product
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_product_reader_messages_proto_init() }
@@ -317,6 +502,54 @@ func file_product_reader_messages_proto_init() {
 				return nil
 			}
 		}
+		file_product_reader_messages_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteProductByIDReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_product_reader_messages_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteProductByIDRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_product_reader_messages_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateProductByIDReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_product_reader_messages_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateProductByIDRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -324,7 +557,7 @@ func file_product_reader_messages_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_product_reader_messages_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

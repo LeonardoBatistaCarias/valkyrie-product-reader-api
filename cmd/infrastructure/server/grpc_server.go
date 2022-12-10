@@ -58,7 +58,3 @@ func newGrpcServer() *grpc.Server {
 		),
 	)
 }
-
-//func (s *server) CreateProduct(ctx context.Context, product *protoProduct.Product) (*protoProduct.Product, error) {
-//
-//}

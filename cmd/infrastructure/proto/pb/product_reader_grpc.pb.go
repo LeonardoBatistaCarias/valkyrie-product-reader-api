@@ -22,6 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 type ProductReaderServiceClient interface {
 	CreateProduct(ctx context.Context, in *CreateProductReq, opts ...grpc.CallOption) (*CreateProductRes, error)
 	GetProductByID(ctx context.Context, in *GetProductByIDReq, opts ...grpc.CallOption) (*GetProductByIDRes, error)
+	DeleteProductByID(ctx context.Context, in *DeleteProductByIDReq, opts ...grpc.CallOption) (*DeleteProductByIDRes, error)
+	UpdateProductByID(ctx context.Context, in *UpdateProductByIDReq, opts ...grpc.CallOption) (*UpdateProductByIDRes, error)
 }
 
 type productReaderServiceClient struct {
@@ -50,11 +52,31 @@ func (c *productReaderServiceClient) GetProductByID(ctx context.Context, in *Get
 	return out, nil
 }
 
+func (c *productReaderServiceClient) DeleteProductByID(ctx context.Context, in *DeleteProductByIDReq, opts ...grpc.CallOption) (*DeleteProductByIDRes, error) {
+	out := new(DeleteProductByIDRes)
+	err := c.cc.Invoke(ctx, "/productReader.ProductReaderService/DeleteProductByID", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *productReaderServiceClient) UpdateProductByID(ctx context.Context, in *UpdateProductByIDReq, opts ...grpc.CallOption) (*UpdateProductByIDRes, error) {
+	out := new(UpdateProductByIDRes)
+	err := c.cc.Invoke(ctx, "/productReader.ProductReaderService/UpdateProductByID", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProductReaderServiceServer is the server API for ProductReaderService service.
 // for forward compatibility
 type ProductReaderServiceServer interface {
 	CreateProduct(context.Context, *CreateProductReq) (*CreateProductRes, error)
 	GetProductByID(context.Context, *GetProductByIDReq) (*GetProductByIDRes, error)
+	DeleteProductByID(context.Context, *DeleteProductByIDReq) (*DeleteProductByIDRes, error)
+	UpdateProductByID(context.Context, *UpdateProductByIDReq) (*UpdateProductByIDRes, error)
 }
 
 func RegisterProductReaderServiceServer(s grpc.ServiceRegistrar, srv ProductReaderServiceServer) {
@@ -97,6 +119,42 @@ func _ProductReaderService_GetProductByID_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ProductReaderService_DeleteProductByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteProductByIDReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductReaderServiceServer).DeleteProductByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/productReader.ProductReaderService/DeleteProductByID",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductReaderServiceServer).DeleteProductByID(ctx, req.(*DeleteProductByIDReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProductReaderService_UpdateProductByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProductByIDReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductReaderServiceServer).UpdateProductByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/productReader.ProductReaderService/UpdateProductByID",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductReaderServiceServer).UpdateProductByID(ctx, req.(*UpdateProductByIDReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ProductReaderService_ServiceDesc is the grpc.ServiceDesc for ProductReaderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -111,6 +169,14 @@ var ProductReaderService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetProductByID",
 			Handler:    _ProductReaderService_GetProductByID_Handler,
+		},
+		{
+			MethodName: "DeleteProductByID",
+			Handler:    _ProductReaderService_DeleteProductByID_Handler,
+		},
+		{
+			MethodName: "UpdateProductByID",
+			Handler:    _ProductReaderService_UpdateProductByID_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

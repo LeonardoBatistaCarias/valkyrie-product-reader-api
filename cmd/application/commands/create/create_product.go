@@ -30,7 +30,5 @@ func (c *createProductHandler) Handle(ctx context.Context, cmd CreateProductComm
 		uuid.NewV4(),
 		nil,
 		true)
-	c.gateway.Create(ctx, *product)
-
-	return nil
+	return c.gateway.CreateProduct(ctx, *product)
 }

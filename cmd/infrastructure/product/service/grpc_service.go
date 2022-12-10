@@ -3,6 +3,8 @@ package service
 import (
 	"context"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/application/commands/create"
+	deleteCommand "github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/application/commands/delete"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/application/commands/update"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/application/queries/get_by"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/config"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/proto/pb"
@@ -55,6 +57,29 @@ func (s *grpcService) GetProductByID(ctx context.Context, req *pb.GetProductByID
 
 	res := &pb.GetProductByIDRes{Product: pp}
 	return res, nil
+}
+
+func (s *grpcService) DeleteProductByID(ctx context.Context, req *pb.DeleteProductByIDReq) (*pb.DeleteProductByIDRes, error) {
+	command := deleteCommand.NewDeleteProductByIDCommand(req.ProductID)
+
+	if err := s.ps.Commands.DeleteProductByID.Handle(ctx, *command); err != nil {
+		log.Printf("DeleteProductByID.Handle %s", err)
+		return nil, s.errResponse(codes.InvalidArgument, err)
+	}
+
+	return &pb.DeleteProductByIDRes{}, nil
+}
+
+func (s *grpcService) UpdateProductByID(ctx context.Context, req *pb.UpdateProductByIDReq) (*pb.UpdateProductByIDRes, error) {
+	p := req.GetProduct()
+	command := update.NewUpdateProductByIDCommand(p.GetProductID(), p.GetName(), p.GetDescription(), p.GetBrand(), float64(p.GetPrice()), p.GetQuantity(), uuid.FromStringOrNil(p.GetCategoryID()), nil, p.GetActive())
+
+	if err := s.ps.Commands.UpdateProductByID.Handle(ctx, *command); err != nil {
+		log.Printf("UpdateProductBytID.Handle %s", err)
+		return nil, s.errResponse(codes.InvalidArgument, err)
+	}
+
+	return &pb.UpdateProductByIDRes{}, nil
 }
 
 func (s *grpcService) errResponse(c codes.Code, err error) error {

@@ -19,3 +19,15 @@ message GetProductByIDReq {
 message GetProductByIDRes {
   Product product = 1;
 }
+
+message DeleteProductByIDReq {
+  string productID = 1;
+}
+
+message DeleteProductByIDRes {}
+
+message UpdateProductByIDReq {
+  Product product = 1;
+}
+
+message UpdateProductByIDRes {}

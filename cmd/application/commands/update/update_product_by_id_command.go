@@ -1,36 +1,40 @@
-package product
+package update
 
 import (
 	uuid "github.com/satori/go.uuid"
 	"time"
 )
 
-type Product struct {
+type UpdateProductByIDCommand struct {
 	ProductID     string
 	Name          string
 	Description   string
-	Brand         Brand
+	Brand         int32
 	Price         float64
 	Quantity      int32
 	CategoryID    uuid.UUID
-	ProductImages []*ProductImage
+	ProductImages []*UpdateProductByIDImageCommand
 	Active        bool
 	CreatedAt     time.Time
-	UpdatedAt     *time.Time
-	DeletedAt     *time.Time
+	UpdatedAt     time.Time
+	DeletedAt     time.Time
 }
 
-func NewProduct(
+type UpdateProductByIDImageCommand struct {
+	Address string
+}
+
+func NewUpdateProductByIDCommand(
 	productID string,
 	name string,
 	description string,
-	brand Brand,
+	brand int32,
 	price float64,
 	quantity int32,
 	categoryID uuid.UUID,
-	images []*ProductImage,
-	active bool) *Product {
-	return &Product{
+	images []*UpdateProductByIDImageCommand,
+	active bool) *UpdateProductByIDCommand {
+	return &UpdateProductByIDCommand{
 		ProductID:     productID,
 		Name:          name,
 		Description:   description,
@@ -41,13 +45,4 @@ func NewProduct(
 		ProductImages: images,
 		Active:        active,
 	}
-}
-
-func (p *Product) Deactivate() {
-	actualDate := time.Now()
-	if p.DeletedAt == nil || p.DeletedAt.Before(p.CreatedAt) {
-		p.DeletedAt = &actualDate
-	}
-	p.Active = false
-	p.UpdatedAt = &actualDate
 }
