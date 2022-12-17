@@ -7,19 +7,22 @@ import (
 )
 
 type ProductCommands struct {
-	CreateProduct     create.CreateProductCommandHandler
-	DeleteProductByID deleteByID.DeleteProductByIDCommandHandler
-	UpdateProductByID update.UpdateProductByIDCommandHandler
+	CreateProduct         create.CreateProductCommandHandler
+	DeleteProductByID     deleteByID.DeleteProductByIDCommandHandler
+	DeactivateProductByID deleteByID.DeactivateProductByIDCommandHandler
+	UpdateProductByID     update.UpdateProductByIDCommandHandler
 }
 
 func NewProductCommands(
 	createProduct create.CreateProductCommandHandler,
 	deleteProductByID deleteByID.DeleteProductByIDCommandHandler,
+	deactivateProductByID deleteByID.DeactivateProductByIDCommandHandler,
 	updateProductByID update.UpdateProductByIDCommandHandler,
 ) *ProductCommands {
 	return &ProductCommands{
-		CreateProduct:     createProduct,
-		DeleteProductByID: deleteProductByID,
-		UpdateProductByID: updateProductByID,
+		CreateProduct:         createProduct,
+		DeleteProductByID:     deleteProductByID,
+		DeactivateProductByID: deactivateProductByID,
+		UpdateProductByID:     updateProductByID,
 	}
 }

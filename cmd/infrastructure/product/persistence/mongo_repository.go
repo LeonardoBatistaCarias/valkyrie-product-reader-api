@@ -1,4 +1,4 @@
-package repository
+package persistence
 
 import (
 	"context"
@@ -53,6 +53,21 @@ func (p *mongoRepository) GetProductById(ctx context.Context, productID string) 
 
 func (p *mongoRepository) DeleteProductByID(ctx context.Context, productID string) error {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "mongoRepository.DeleteProductByID")
+	defer span.Finish()
+
+	collection := p.db.Database(p.cfg.Mongo.Db).Collection(p.cfg.MongoCollections.Products)
+
+	filter := bson.M{"productid": productID}
+	if _, err := collection.DeleteOne(ctx, filter); err != nil {
+		p.traceErr(span, err)
+		return errors.Wrap(err, "UpdateOne")
+	}
+
+	return nil
+}
+
+func (p *mongoRepository) DeactivateProductByID(ctx context.Context, productID string) error {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "mongoRepository.DeactivateProductByID")
 	defer span.Finish()
 
 	collection := p.db.Database(p.cfg.Mongo.Db).Collection(p.cfg.MongoCollections.Products)

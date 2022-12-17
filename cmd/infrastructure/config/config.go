@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/mongodb"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/utils/constants"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/utils/logger"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 	"os"
@@ -18,6 +19,7 @@ func init() {
 
 type Config struct {
 	ServiceName      string           `mapstructure:"serviceName"`
+	Logger           *logger.Config   `mapstructure:"logger"`
 	GRPC             GRPC             `mapstructure:"grpc"`
 	Mongo            *mongodb.Config  `mapstructure:"mongo"`
 	MongoCollections MongoCollections `mapstructure:"mongoCollections"`

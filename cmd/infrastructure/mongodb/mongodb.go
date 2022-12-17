@@ -2,17 +2,9 @@ package mongodb
 
 import (
 	"context"
-	"time"
-
+	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/utils/constants"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-)
-
-const (
-	connectTimeout  = 30 * time.Second
-	maxConnIdleTime = 3 * time.Minute
-	minPoolSize     = 20
-	maxPoolSize     = 300
 )
 
 type Config struct {
@@ -22,16 +14,15 @@ type Config struct {
 	Db       string `mapstructure:"db"`
 }
 
-// NewMongoDBConn Create new MongoDB client
 func NewMongoDBConn(ctx context.Context, cfg *Config) (*mongo.Client, error) {
 
 	client, err := mongo.NewClient(
 		options.Client().ApplyURI(cfg.URI).
 			SetAuth(options.Credential{Username: cfg.User, Password: cfg.Password}).
-			SetConnectTimeout(connectTimeout).
-			SetMaxConnIdleTime(maxConnIdleTime).
-			SetMinPoolSize(minPoolSize).
-			SetMaxPoolSize(maxPoolSize))
+			SetConnectTimeout(constants.CONNECT_TIMEOUT).
+			SetMaxConnIdleTime(constants.MAX_CONN_IDLE_TIME).
+			SetMinPoolSize(constants.MIN_POOL_SIZE).
+			SetMaxPoolSize(constants.MAX_POOL_SIZE))
 	if err != nil {
 		return nil, err
 	}

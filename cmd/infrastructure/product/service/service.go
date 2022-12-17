@@ -8,7 +8,7 @@ import (
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/application/queries"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/application/queries/get_by"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/product"
-	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/repository"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/product/persistence"
 )
 
 type ProductService struct {
@@ -17,17 +17,18 @@ type ProductService struct {
 }
 
 func NewProductService(
-	mongoRepo repository.Repository,
+	mongoRepo persistence.Repository,
 ) *ProductService {
 	mongoDBGateway := product.NewProductMongoDBGateway(mongoRepo)
 
 	createProductHandler := create.NewCreateProductHandler(mongoDBGateway)
 	deleteProductByIDHandler := deleteByID.NewDeleteProductByIDHandler(mongoDBGateway)
+	deactivateProductByIDHandler := deleteByID.NewDeactivateProductByIDHandler(mongoDBGateway)
 	updateProductByIDHandler := update.NewUpdateProductByIDHandler(mongoDBGateway)
 
 	getProductByIdHandler := get_by.NewGetProductByIdHandler(mongoDBGateway)
 
-	productCommands := commands.NewProductCommands(createProductHandler, deleteProductByIDHandler, updateProductByIDHandler)
+	productCommands := commands.NewProductCommands(createProductHandler, deleteProductByIDHandler, deactivateProductByIDHandler, updateProductByIDHandler)
 	productQueries := queries.NewProductQueries(getProductByIdHandler)
 
 	return &ProductService{Commands: productCommands, Queries: productQueries}

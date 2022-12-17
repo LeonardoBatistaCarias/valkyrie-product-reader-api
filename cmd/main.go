@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/config"
 	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/server"
+	"github.com/LeonardoBatistaCarias/valkyrie-product-reader-api/cmd/infrastructure/utils/logger"
 	"log"
 )
 
@@ -15,6 +16,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	s := server.NewServer(cfg)
-	log.Fatal(s.Run())
+	logger := logger.NewAppLogger(cfg.Logger)
+	logger.InitLogger()
+
+	s := server.NewServer(logger, cfg)
+	logger.Fatal(s.Run())
 }

@@ -12,10 +12,4 @@ const (
 
 	// Base Config Path
 	BASE_CONFIG_PATH = "cmd/infrastructure/config/config.yaml"
-
-	// GRPC Config Server
-	MAX_CONNECTION_IDLE = 5
-	GRPC_TIMEOUT        = 15
-	MAX_CONNECTION_AGE  = 5
-	GRPC_TIME           = 10
 )

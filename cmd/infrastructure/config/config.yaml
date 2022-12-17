@@ -1,4 +1,8 @@
-serviceName: reader_service
+serviceName: product_reader_api
+logger:
+  level: debug
+  devMode: false
+  encoder: json
 grpc:
   port: :5003
   development: true

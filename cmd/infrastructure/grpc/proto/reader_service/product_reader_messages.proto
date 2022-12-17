@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-option go_package = "/pb";
+option go_package = "/reader_service";
 
-import "product.proto";
+import "proto/model/product.proto";
 
 message CreateProductReq {
   Product product = 1;
@@ -25,6 +25,12 @@ message DeleteProductByIDReq {
 }
 
 message DeleteProductByIDRes {}
+
+message DeactivateProductByIDReq {
+  string productID = 1;
+}
+
+message DeactivateProductByIDRes {}
 
 message UpdateProductByIDReq {
   Product product = 1;

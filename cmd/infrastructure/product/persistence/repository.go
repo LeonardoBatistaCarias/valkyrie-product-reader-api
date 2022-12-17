@@ -1,4 +1,4 @@
-package repository
+package persistence
 
 import (
 	"context"
@@ -9,5 +9,6 @@ type Repository interface {
 	CreateProduct(ctx context.Context, product *product.Product) error
 	GetProductById(ctx context.Context, productID string) (*product.Product, error)
 	DeleteProductByID(ctx context.Context, productID string) error
+	DeactivateProductByID(ctx context.Context, productID string) error
 	UpdateProductByID(ctx context.Context, product *product.Product) error
 }
